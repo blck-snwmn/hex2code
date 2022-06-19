@@ -3,13 +3,14 @@ import {
   Box,
   Button,
   Container,
-  Divider,
   FormLabel,
   Grid,
   GridItem,
+  HStack,
   NumberInput,
   NumberInputField,
   Textarea,
+  useColorMode,
 } from '@chakra-ui/react';
 
 type Action = { language: 'Go'; input: string; word: number };
@@ -38,16 +39,39 @@ function App() {
   const [value, setValue] = useState('');
   const [wordNum, setWordNum] = useState('');
   const [state, dispatch] = useReducer(reducer, '');
-
   return (
     <Container maxW='100rem'>
       <Grid
-        templateAreas={`"left right"`}
+        templateAreas={`"header header"
+                        "left right"`}
         gridTemplateColumns={'1fr 1fr'}
         gridTemplateRows={'1fr'}
         gap={6}
       >
+        <GridItem area={'header'}>
+          <HStack spacing='24px'>
+            <Box>
+              <FormLabel htmlFor='wordPerLint'>1行の文字数</FormLabel>
+              <NumberInput name='wordPerLint'>
+                <NumberInputField
+                  onChange={(e) => {
+                    setWordNum(e.target.value);
+                  }}
+                />
+              </NumberInput>
+            </Box>
+            <Button
+              onClick={() => {
+                const w = Number(wordNum);
+                dispatch({ language: 'Go', input: value, word: w ? w : 8 });
+              }}
+            >
+              Change
+            </Button>
+          </HStack>
+        </GridItem>
         <GridItem area={'left'}>
+
           <Textarea
             rows={20}
             cols={100}
@@ -56,22 +80,6 @@ function App() {
             }}
           >
           </Textarea>
-          <FormLabel htmlFor='wordPerLint'>1行の文字数</FormLabel>
-          <NumberInput name='wordPerLint'>
-            <NumberInputField
-              onChange={(e) => {
-                setWordNum(e.target.value);
-              }}
-            />
-          </NumberInput>
-          <Button
-            onClick={() => {
-              const w = Number(wordNum);
-              dispatch({ language: 'Go', input: value, word: w ? w : 8 });
-            }}
-          >
-            Change
-          </Button>
         </GridItem>
         <GridItem area={'right'}>
           <Textarea rows={20} cols={200} value={state}></Textarea>
