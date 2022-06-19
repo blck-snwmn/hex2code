@@ -1,4 +1,15 @@
 import { useReducer, useState } from 'react'
+import {
+  FormLabel,
+  NumberInput,
+  NumberInputField,
+  Textarea,
+  Divider,
+  Button,
+  Container,
+  Grid,
+  GridItem,
+} from '@chakra-ui/react'
 
 type Action = { language: 'Go', input: string, word: number }
 
@@ -28,24 +39,28 @@ function App() {
   const [wordNum, setWordNum] = useState("")
   const [state, dispatch] = useReducer(reducer, "")
 
-
   return (
-    <>
-      <div>
-        <textarea rows={20} cols={200} onChange={(e) => { setValue(e.target.value) }} ></textarea>
-      </div>
-      <div>
-        <label htmlFor="wordPerLint">1行の文字数</label>
-        <input name='wordPerLint' onChange={(e) => { setWordNum(e.target.value) }} />
-      </div>
-      <button onClick={() => {
-        const w = Number(wordNum)
-        dispatch({ language: "Go", input: value, word: w ? w : 8 })
-      }}>Change</button>
-      <div>
-        <textarea rows={20} cols={200} value={state}></textarea>
-      </div>
-    </>
+    <Container maxW='100rem' >
+      <Grid templateAreas={`"left right"`}
+        gridTemplateColumns={'1fr 1fr'}
+        gridTemplateRows={'1fr'}
+        gap={6}>
+        <GridItem area={'left'}>
+          <Textarea rows={20} cols={100} onChange={(e) => { setValue(e.target.value) }} ></Textarea>
+          <FormLabel htmlFor="wordPerLint">1行の文字数</FormLabel >
+          <NumberInput name='wordPerLint'>
+            <NumberInputField onChange={(e) => { setWordNum(e.target.value) }} />
+          </NumberInput>
+          <Button onClick={() => {
+            const w = Number(wordNum)
+            dispatch({ language: "Go", input: value, word: w ? w : 8 })
+          }}>Change</Button>
+        </GridItem>
+        <GridItem area={'right'}>
+          <Textarea rows={20} cols={200} value={state}></Textarea>
+        </GridItem>
+      </Grid>
+    </Container>
   )
 }
 
