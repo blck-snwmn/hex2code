@@ -20,7 +20,8 @@ const mapper = {};
 const reducer = (_: string, action: Action) => {
   const input = action.input;
   const split = input.split(' ');
-  const filltered = split.filter((i) => i.length == 2);
+  const filltered = split.filter((s) => s.length == 2 && s.match(/[0-9a-fA-F]{2}/g));
+  filltered.forEach(s => console.log(s, s.match(/[0-9a-fA-F]{2}/g)))
   const mapped = filltered.map((i) => '0x' + i + ','); // to hex format
 
   const format = mapped.reduce((acc, x) => { // fix the length of one line
@@ -37,10 +38,10 @@ const reducer = (_: string, action: Action) => {
 
 function App() {
   const [value, setValue] = useState('');
-  const [wordNum, setWordNum] = useState('');
+  const [wordNum, setWordNum] = useState('8');
   const [state, dispatch] = useReducer(reducer, '');
   return (
-    <Container maxW='100rem'>
+    <Container maxW='150rem'>
       <Grid
         templateAreas={`"header header"
                         "left right"`}
@@ -50,16 +51,14 @@ function App() {
       >
         <GridItem area={'header'}>
           <HStack spacing='24px'>
-            <Box>
-              <FormLabel htmlFor='wordPerLint'>1行の文字数</FormLabel>
-              <NumberInput name='wordPerLint'>
-                <NumberInputField
-                  onChange={(e) => {
-                    setWordNum(e.target.value);
-                  }}
-                />
-              </NumberInput>
-            </Box>
+            <FormLabel htmlFor='wordPerLint'>1行の文字数</FormLabel>
+            <NumberInput name='wordPerLint' value={wordNum}>
+              <NumberInputField
+                onChange={(e) => {
+                  setWordNum(e.target.value);
+                }}
+              />
+            </NumberInput>
             <Button
               onClick={() => {
                 const w = Number(wordNum);
