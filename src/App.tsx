@@ -70,18 +70,24 @@ function App() {
           </HStack>
         </GridItem>
         <GridItem area={'left'}>
-
-          <Textarea
-            rows={20}
-            cols={100}
-            onChange={(e) => {
-              setValue(e.target.value);
-            }}
-          >
-          </Textarea>
+          <Box>
+            <FormLabel htmlFor='hexinput'>Input:</FormLabel>
+            <Textarea
+              rows={20}
+              cols={100}
+              onChange={(e) => {
+                setValue(e.target.value);
+              }}
+              name='hexinput'
+            >
+            </Textarea>
+          </Box>
         </GridItem>
         <GridItem area={'right'}>
-          <Textarea rows={20} cols={200} value={state}></Textarea>
+          <Box>
+            <FormLabel htmlFor='hexresult'>Result:</FormLabel>
+            <Textarea rows={20} cols={200} value={state} name='hexresult'></Textarea>
+          </Box>
         </GridItem>
       </Grid>
     </Container>
