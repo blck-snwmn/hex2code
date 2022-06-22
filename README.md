@@ -1,4 +1,6 @@
 # hex2code
+
+![Sample](window.png)
 ## Usage
 
 1. Enter in the text area
